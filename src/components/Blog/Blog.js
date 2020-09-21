@@ -19,27 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const sections = [
-  { title: 'Technology', url: '#' },
-  { title: 'Design', url: '#' },
-  { title: 'Culture', url: '#' },
-  { title: 'Business', url: '#' },
-  { title: 'Politics', url: '#' },
-  { title: 'Opinion', url: '#' },
-  { title: 'Science', url: '#' },
-  { title: 'Health', url: '#' },
-  { title: 'Style', url: '#' },
-  { title: 'Travel', url: '#' },
-];
-
-const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://source.unsplash.com/random',
-  imgText: 'main image description',
-  linkText: 'Continue reading…',
-};
 
 const featuredPosts = [
   {
@@ -65,6 +44,9 @@ const posts = [post1, post2, post3];
 export default function Blog() {
   const classes = useStyles();
   const [sitename, setSiteName] = useState('');
+  const initialmenu = [
+    { title: '', value: "#" }];
+  const [menus, setSiteMenu] = useState(initialmenu);
 
   const getSitename = () => {
     fetch(globalConstants.BASE_URL + '/rest/api/get/sitename', {
@@ -77,17 +59,27 @@ export default function Blog() {
       }
     })
   }
-
+  const getSiteMenu = () => {
+    fetch(globalConstants.BASE_URL + '/api/menu_items/main', {
+      method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+      setSiteMenu(data);
+    })
+  }
   useEffect(() => {
     getSitename();
+    getSiteMenu();
   },[]);
   return (
+
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title={sitename} sections={sections} />
+        <Header title={sitename} sections={menus} />
         <main>
-          <MainFeaturedPost post={mainFeaturedPost} />
+
           <Grid container spacing={4}>
             {featuredPosts.map((post) => (
               <FeaturedPost key={post.title} post={post} />

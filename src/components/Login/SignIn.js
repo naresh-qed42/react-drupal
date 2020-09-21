@@ -55,9 +55,6 @@ export default function SignIn() {
     .then(response => response.json())
     .then(data => {
       if (data.access_token) {
-        let session = {
-          access_token: data.access_token,
-        }
         window.location = '/blog';
         CookieManager.setCookie("drupal_cookie_session", data.access_token, data.expires_in)
       } else {

@@ -54,7 +54,7 @@ export default function Header(props) {
             noWrap
             key={section.title}
             variant="body2"
-            href={section.url}
+            href={section.uri}
             className={classes.toolbarLink}
           >
             {section.title}
